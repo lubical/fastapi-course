@@ -1,7 +1,14 @@
 from fastapi import FastAPI, Response, status, HTTPException
-import psycopg
-from psycopg.rows import dict_row
+from fastapi.params import Depends
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from pydantic import BaseModel
+from sqlalchemy.orm.session import Session
+
+from . import models
+from .database import SessionLocal, engine, get_db
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -12,7 +19,7 @@ class Post(BaseModel):
     published: bool = True
 
 try: 
-    conn = psycopg.connect("dbname=fastapi user=postgres password=postgres", row_factory=dict_row)
+    conn = psycopg2.connect("dbname=fastapi user=postgres password=postgres", cursor_factory=RealDictCursor)
     cursor = conn.cursor()
 except Exception as e:
     raise e 
@@ -21,6 +28,10 @@ except Exception as e:
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/sqlalchemy")
+def test_sqlalchemy(db: Session = Depends(get_db)):
+    return {"message": "success"}
 
 @app.get("/posts")
 def get_posts():
