@@ -25,3 +25,9 @@ class User(Base):
 
     def __str__(self) -> str:
         return f"id {self.id} email {self.email} created_at {self.created_at}"
+
+
+class Vote(Base):
+    __tablename__ = "votes"
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True, nullable=False)
+    post_id = Column(Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True, nullable=False)
