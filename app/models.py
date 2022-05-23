@@ -1,3 +1,4 @@
+from re import I
 from sqlalchemy import TIMESTAMP, Column, ForeignKey, Integer, String, Boolean, text
 from sqlalchemy.orm import relationship
 from .database import Base
@@ -22,7 +23,8 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
-
+    phone_number = Column(String)
+    
     def __str__(self) -> str:
         return f"id {self.id} email {self.email} created_at {self.created_at}"
 
