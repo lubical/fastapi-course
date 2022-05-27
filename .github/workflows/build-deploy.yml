@@ -91,3 +91,14 @@ jobs:
       # heroku login
       # add git remote for heroku
       # git push heroku main
+
+      # - name: deploy to ubuntu server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{secrtes.PROD_HOST}}
+      #     username: ${{secrets.PROD_USERNAME}}
+      #     password: ${{serects.PROD_PASSWORD}}
+      #     script: |
+      #       cd app/src
+      #       git pull
+      #       echo  ${{serects.PROD_PASSWORD}} | sudo -S systemctl restart api 
