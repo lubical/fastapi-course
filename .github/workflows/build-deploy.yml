@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   job1: 
     runs-on: ubuntu-latest
-    stesp:
+    steps:
       - name: pulling git repo
         uses: actions/checkout@v2
       - name: say hi to sanjeev
